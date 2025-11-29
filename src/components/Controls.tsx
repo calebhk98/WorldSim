@@ -9,6 +9,8 @@ interface ControlsProps {
         rotationSpeed: number;
         rotationPeriod: number;
         orbitalPeriod: number;
+        generationMethod: 'noise' | 'tectonic';
+        heightScale: number;
     };
     setParams: React.Dispatch<React.SetStateAction<{
         seaLevel: number;
@@ -18,6 +20,8 @@ interface ControlsProps {
         rotationSpeed: number;
         rotationPeriod: number;
         orbitalPeriod: number;
+        generationMethod: 'noise' | 'tectonic';
+        heightScale: number;
     }>>;
     onRegenerate: () => void;
     onFileChange: (file: File) => void;
@@ -25,11 +29,11 @@ interface ControlsProps {
 }
 
 const Controls: React.FC<ControlsProps> = ({ params, setParams, onRegenerate, onFileChange, onRandomize }) => {
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setParams(prev => ({
             ...prev,
-            [name]: parseFloat(value)
+            [name]: name === 'generationMethod' ? value : parseFloat(value)
         }));
     };
 
@@ -54,6 +58,34 @@ const Controls: React.FC<ControlsProps> = ({ params, setParams, onRegenerate, on
             overflowY: 'auto'
         }}>
             <h3>World Controls</h3>
+
+            <div style={{ marginBottom: '10px' }}>
+                <label>Generation Method</label>
+                <select
+                    name="generationMethod"
+                    value={params.generationMethod}
+                    onChange={handleChange}
+                    style={{ width: '100%', padding: '5px', marginTop: '5px' }}
+                >
+                    <option value="noise">Simplex Noise</option>
+                    <option value="tectonic">Tectonic Plates</option>
+                </select>
+            </div>
+
+            <div style={{ marginBottom: '10px' }}>
+                <label>Height Scale (Exaggeration)</label>
+                <input
+                    type="range"
+                    name="heightScale"
+                    min="0.1"
+                    max="3"
+                    step="0.1"
+                    value={params.heightScale}
+                    onChange={handleChange}
+                    style={{ width: '100%' }}
+                />
+                <span>{params.heightScale}x</span>
+            </div>
 
             <div style={{ marginBottom: '10px' }}>
                 <label>Resolution (0-6)</label>

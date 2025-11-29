@@ -8,14 +8,26 @@ import type { CellData } from './core/WorldGenerator';
 import './App.css';
 
 function App() {
-  const [params, setParams] = useState({
+  const [params, setParams] = useState<{
+    seaLevel: number;
+    resolution: number;
+    axialTilt: number;
+    sunlight: number;
+    rotationSpeed: number;
+    rotationPeriod: number;
+    orbitalPeriod: number;
+    generationMethod: 'noise' | 'tectonic';
+    heightScale: number;
+  }>({
     seaLevel: 0.5,
     resolution: 2,
     axialTilt: 23.5,
     sunlight: 1,
     rotationSpeed: 1,
     rotationPeriod: 1,
-    orbitalPeriod: 365
+    orbitalPeriod: 365,
+    generationMethod: 'noise',
+    heightScale: 0.5
   });
 
   const [worldData, setWorldData] = useState<CellData[]>([]);
@@ -30,7 +42,8 @@ function App() {
       params.axialTilt,
       params.rotationSpeed,
       params.rotationPeriod,
-      params.orbitalPeriod
+      params.orbitalPeriod,
+      params.generationMethod
     );
     setWorldData(data);
   };
@@ -68,6 +81,7 @@ function App() {
           seaLevel={params.seaLevel}
           axialTilt={params.axialTilt}
           resolution={params.resolution}
+          heightScale={params.heightScale}
           onHover={(cell) => {
             setHoveredCell(prev => {
               if (prev === cell) return prev;

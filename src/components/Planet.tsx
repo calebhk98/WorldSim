@@ -8,10 +8,11 @@ interface PlanetProps {
     seaLevel: number;
     axialTilt: number;
     resolution: number;
+    heightScale: number;
     onHover: (cell: CellData | null) => void;
 }
 
-const Planet: React.FC<PlanetProps> = ({ data, seaLevel, axialTilt, resolution, onHover }) => {
+const Planet: React.FC<PlanetProps> = ({ data, seaLevel, axialTilt, resolution, heightScale, onHover }) => {
     const meshRef = useRef<THREE.InstancedMesh>(null);
     const dummy = useMemo(() => new THREE.Object3D(), []);
 
@@ -46,7 +47,7 @@ const Planet: React.FC<PlanetProps> = ({ data, seaLevel, axialTilt, resolution, 
                 h = seaLevel; // Flatten ocean
             }
 
-            const radius = r + (h - seaLevel) * 0.5; // Exaggerate terrain
+            const radius = r + (h - seaLevel) * heightScale; // Exaggerate terrain
 
             const phi = (90 - cell.lat) * (Math.PI / 180);
             const theta = (cell.lon + 180) * (Math.PI / 180);

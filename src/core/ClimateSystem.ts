@@ -92,6 +92,7 @@ export class ClimateSystem {
             case 'TEMPERATE_FOREST': return '#2d8a2d';
             case 'GRASSLAND': return '#6da832';
             case 'TAIGA': return '#5b7c61';
+            case 'RIVER': return '#3366ff';
             default: return '#ff00ff';
         }
     }
